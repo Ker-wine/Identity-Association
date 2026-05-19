@@ -1,0 +1,9 @@
+entityId,platformId,userId,username
+u001,twitter,tw001,alice_tw
+u001,instagram,ig001,alice_ig
+u002,twitter,tw002,bob_goals
+u002,instagram,ig002,bob_football
+u003,twitter,tw003,claire_code
+u003,instagram,ig003,claire_dev
+u004,twitter,tw004,david_food
+u004,instagram,ig004,david_kitchen
