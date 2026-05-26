@@ -1,0 +1,102 @@
+{
+  "taskId": "task-platform-ab-20260526-001",
+  "modelVersion": "twin-align-baseline-0.1.0",
+  "success": true,
+  "inferenceTimeMs": 18,
+  "identityClusters": [
+    {
+      "entityId": "u001",
+      "confidence": 0.93,
+      "members": [
+        {
+          "platformId": "a_platform",
+          "userId": "1",
+          "username": "a_platform_user_1",
+          "imagePath": "data/platform_a/images/user_01/2008_000716.jpg"
+        },
+        {
+          "platformId": "b_platform",
+          "userId": "1",
+          "username": "b_platform_user_1",
+          "imagePath": "data/platform_b/images/user_01/2008_001227.jpg"
+        }
+      ],
+      "alignmentEvidence": {
+        "pairScore": 0.93,
+        "matchedFeatures": [
+          "topic",
+          "captionText",
+          "postFrequency"
+        ],
+        "featureScores": {
+          "topicSimilarity": 1.0,
+          "captionTextSimilarity": 0.78,
+          "usernameSimilarity": 0.84,
+          "postFrequencySimilarity": 1.0,
+          "imageEmbeddingSimilarity": null,
+          "socialGraphSimilarity": null,
+          "deviceFingerprintMatch": null,
+          "ipRegionMatch": null
+        }
+      },
+      "physicalExplanation": [
+        "platform_a user 1 and platform_b user 1 both map to the Pascal Sentences aeroplane class.",
+        "Both accounts contain exactly one content item.",
+        "Both captions describe airplane, plane, or airport scenes, so the text topics are close.",
+        "This sample has no real CLIP image vector, social graph, IP region, or device fingerprint, so those signals are not used."
+      ]
+    },
+    {
+      "entityId": "u002",
+      "confidence": 0.91,
+      "members": [
+        {
+          "platformId": "a_platform",
+          "userId": "2",
+          "username": "a_platform_user_2",
+          "imagePath": "data/platform_a/images/user_02/2008_000090.jpg"
+        },
+        {
+          "platformId": "b_platform",
+          "userId": "2",
+          "username": "b_platform_user_2",
+          "imagePath": "data/platform_b/images/user_02/2008_000725.jpg"
+        }
+      ],
+      "alignmentEvidence": {
+        "pairScore": 0.91,
+        "matchedFeatures": [
+          "topic",
+          "postFrequency"
+        ],
+        "featureScores": {
+          "topicSimilarity": 1.0,
+          "captionTextSimilarity": 0.56,
+          "usernameSimilarity": 0.84,
+          "postFrequencySimilarity": 1.0,
+          "imageEmbeddingSimilarity": null,
+          "socialGraphSimilarity": null,
+          "deviceFingerprintMatch": null,
+          "ipRegionMatch": null
+        }
+      },
+      "physicalExplanation": [
+        "platform_a user 2 and platform_b user 2 both map to the Pascal Sentences bicycle class.",
+        "Both accounts contain exactly one content item.",
+        "The platform_a caption focuses more on a street scene, while the platform_b caption focuses more on cycling; both still share the same class label.",
+        "This sample has no real CLIP image vector, social graph, IP region, or device fingerprint, so those signals are not used."
+      ]
+    }
+  ],
+  "unmatchedUsers": [],
+  "summary": {
+    "totalCandidates": 4,
+    "totalClusters": 2,
+    "threshold": 0.85,
+    "dataSource": "Pascal Sentences",
+    "platforms": [
+      "a_platform",
+      "b_platform"
+    ]
+  }
+}

@@ -1,4 +1,4 @@
-# 项目 Demo 运行手册
+﻿# 项目 Demo 运行手册
 
 这份文档专门讲两件事：
 
@@ -464,9 +464,187 @@ python twin_align_baseline.py train --dataDir ./data/twin_std --outDir ./runs/tw
 
 ---
 
-## 15. 常见问题
+## 15. Pascal Sentences 图片数据组织方式
 
-### 15.1 提示找不到 `python`
+我已经按你的新规则，把 Pascal Sentences 数据源整理成了两个平台：
+
+```text
+data/
+  platform_a/
+    upload.csv
+    images/
+  platform_b/
+    upload.csv
+    images/
+  pascal_class_mapping.csv
+```
+
+现在的数据规则是：
+
+- platform_a：10 个用户
+- platform_b：10 个用户
+- 每个平台每个用户 1 张图片
+- platform_a和platform_b的用户 ID 相同，表示同一个真实用户在两个平台上的账号
+- 前 10 个用户分别对应 Pascal Sentences 官网前 10 类图片
+- 每张图片对应官网提供的 5 句英文描述，已经合并写入 `text`
+
+前 10 类对应关系如下：
+
+| userId | Pascal 类别 |
+| --- | --- |
+| 1 | aeroplane |
+| 2 | bicycle |
+| 3 | bird |
+| 4 | boat |
+| 5 | bottle |
+| 6 | bus |
+| 7 | car |
+| 8 | cat |
+| 9 | chair |
+| 10 | cow |
+
+其中每一类的第 1 张图片放到 platform_a，第 2 张图片放到 platform_b。
+
+### 15.1 upload.csv 字段说明
+
+每个平台的 `upload.csv` 字段如下：
+
+```csv
+userId,postId,imagePath,text,timestamp,imageEmbedding
+```
+
+含义是：
+
+| 字段 | 说明 |
+| --- | --- |
+| `userId` | 用户编号，platform_a和platform_b都用 1 到 10 |
+| `postId` | 帖子编号，也可以理解为该用户在该平台发的那张图 |
+| `imagePath` | 图片路径，建议放成 `images/user_01/post_01.jpg` 这种格式 |
+| `text` | 这张图片对应的几句话，当前来自 Pascal Sentences caption |
+| `timestamp` | 发布时间，可选，不知道就先留空 |
+| `imageEmbedding` | 图片向量，可选，后续用 CLIP 提取后再填 |
+
+### 15.2 当前图片目录结构
+
+当前已经下载并整理成类似这样的结构：
+
+```text
+data/platform_a/images/user_01/2008_000716.jpg
+data/platform_b/images/user_01/2008_001227.jpg
+...
+data/platform_a/images/user_10/2008_xxxxxx.jpg
+data/platform_b/images/user_10/2008_xxxxxx.jpg
+...
+```
+
+也就是说，`user_01` 在 A/B 两个平台各有一张图，它们都属于同一个真实用户 `u001`。
+
+### 15.3 重新下载 Pascal 数据
+
+我已经新增了一个命令，后续你可以重新下载并生成 A/B 平台数据：
+
+```powershell
+python twin_align_baseline.py download-pascal-data `
+  --outputRoot ./data `
+  --platformADir platform_a `
+  --platformBDir platform_b
+```
+
+它会自动生成：
+
+```text
+data/platform_a/upload.csv
+data/platform_b/upload.csv
+data/platform_a/images/
+data/platform_b/images/
+data/pascal_class_mapping.csv
+```
+
+### 15.4 把 A/B 平台数据转换成训练数据
+
+填好 `data/platform_a/upload.csv` 和 `data/platform_b/upload.csv` 后，执行：
+
+```powershell
+python twin_align_baseline.py prepare-upload-data `
+  --inputRoot ./data `
+  --platformADir platform_a `
+  --platformBDir platform_b `
+  --inputFile upload.csv `
+  --platformAId a_platform `
+  --platformBId b_platform `
+  --outDir ./data/twin_std
+```
+
+这条命令会生成：
+
+```text
+data/twin_std/users.csv
+data/twin_std/posts.csv
+```
+
+其中：
+
+- platform_a用户 `1` 和 platform_b用户 `1` 会被认为是同一个真实用户，entityId 是 `u001`
+- platform_a用户 `2` 和 platform_b用户 `2` 会被认为是同一个真实用户，entityId 是 `u002`
+- 以此类推，直到 `u010`
+
+### 15.5 用 Pascal A/B 数据训练
+
+转换完成后，照常训练：
+
+```powershell
+python twin_align_baseline.py train `
+  --dataDir ./data/twin_std `
+  --outDir ./runs/twin_align_upload `
+  --negativeRatio 3 `
+  --mergeThreshold 0.85
+```
+
+### 15.6 用 Pascal A/B 数据预测
+
+比如判断 platform_a用户 1 和 platform_b用户 1 是否匹配：
+
+```powershell
+python twin_align_baseline.py predict `
+  --modelPath ./runs/twin_align_upload/twin_align_baseline.joblib `
+  --platformA a_platform `
+  --userA 1 `
+  --platformB b_platform `
+  --userB 1 `
+  --mergeThreshold 0.85
+```
+
+批量预测全部 A/B 候选对：
+
+```powershell
+python twin_align_baseline.py predict-all `
+  --modelPath ./runs/twin_align_upload/twin_align_baseline.joblib `
+  --platformA a_platform `
+  --platformB b_platform `
+  --out ./runs/twin_align_upload/predict_all.json
+```
+
+### 15.7 关于图片本身
+
+当前 baseline 会保留 `imagePath` 和 caption 文本，但不会直接读取 JPG/PNG 图片做深度视觉特征。
+
+现在 Pascal Sentences 已经给每张图片提供了 5 句文字描述，所以模型会先基于：
+
+- 文本
+- 用户编号生成的用户名
+- 发帖数量
+- 时间字段
+- 写作风格
+
+来跑通流程。
+
+如果后续要让 RTX 4090 发挥作用，下一步可以加一个 `CLIP` 图片向量提取脚本，把每张图片转成 `imageEmbedding`，再让当前模型读取这些图片向量参与匹配。
+
+---
+
+## 16. 常见问题
+
+### 16.1 提示找不到 `python`
 
 说明 Python 没装好，或者没加入系统 PATH。  
 先确认：
@@ -475,7 +653,7 @@ python twin_align_baseline.py train --dataDir ./data/twin_std --outDir ./runs/tw
 python --version
 ```
 
-### 15.2 提示缺少 `fastapi` 或 `uvicorn`
+### 16.2 提示缺少 `fastapi` 或 `uvicorn`
 
 重新安装依赖：
 
@@ -483,12 +661,12 @@ python --version
 pip install -r requirements.txt
 ```
 
-### 15.3 为什么 4090 没有高占用？
+### 16.3 为什么 4090 没有高占用？
 
 因为这版 baseline 主体是 CPU 流程，不是 GPU 深度学习训练。  
 这是当前实现设计如此，不是显卡坏了，也不是环境没配对。
 
-### 15.4 当前准确率能直接到 95% 吗？
+### 16.4 当前准确率能直接到 95% 吗？
 
 不能保证。
 
@@ -507,7 +685,7 @@ pip install -r requirements.txt
 
 ---
 
-## 16. 一句话建议
+## 17. 一句话建议
 
 如果你现在最重要的是“赶紧把项目跑起来”，就按下面顺序：
 

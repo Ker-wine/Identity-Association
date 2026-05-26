@@ -1,0 +1,152 @@
+{
+  "taskId": "task-platform-ab-20260526-001",
+  "candidates": [
+    {
+      "platformId": "a_platform",
+      "userId": "1",
+      "username": "a_platform_user_1",
+      "entityHint": "u001",
+      "imagePath": "data/platform_a/images/user_01/2008_000716.jpg",
+      "imageCaptionText": "One jet lands at an airport while another takes off next to it. Two airplanes parked in an airport. Two jets taxi past each other. Two parked jet airplanes facing opposite directions. two passenger planes on a grassy plain",
+      "avatarFeatureVector": [],
+      "bioText": "Pascal Sentences class: aeroplane",
+      "behaviorFeatures": {
+        "postFrequency": 1.0,
+        "activeHours": [],
+        "topicDistribution": {
+          "aeroplane": 1.0
+        },
+        "writingStyleVector": []
+      },
+      "socialGraph": {
+        "followerIds": [],
+        "followingIds": [],
+        "interactionIds": []
+      },
+      "ipRegion": null,
+      "deviceFingerprint": null,
+      "contentItems": [
+        {
+          "postId": "A01_01",
+          "imagePath": "data/platform_a/images/user_01/2008_000716.jpg",
+          "text": "One jet lands at an airport while another takes off next to it. Two airplanes parked in an airport. Two jets taxi past each other. Two parked jet airplanes facing opposite directions. two passenger planes on a grassy plain",
+          "timestamp": null,
+          "imageEmbedding": []
+        }
+      ]
+    },
+    {
+      "platformId": "b_platform",
+      "userId": "1",
+      "username": "b_platform_user_1",
+      "entityHint": "u001",
+      "imagePath": "data/platform_b/images/user_01/2008_001227.jpg",
+      "imageCaptionText": "Two gentleman talking in front of propeller plane. Two men are conversing next to a small airplane. Two men talking in front of a plane Two men talking in front of a small plane. Two men talk while standing next to a small passenger plane at an airport.",
+      "avatarFeatureVector": [],
+      "bioText": "Pascal Sentences class: aeroplane",
+      "behaviorFeatures": {
+        "postFrequency": 1.0,
+        "activeHours": [],
+        "topicDistribution": {
+          "aeroplane": 1.0
+        },
+        "writingStyleVector": []
+      },
+      "socialGraph": {
+        "followerIds": [],
+        "followingIds": [],
+        "interactionIds": []
+      },
+      "ipRegion": null,
+      "deviceFingerprint": null,
+      "contentItems": [
+        {
+          "postId": "B01_01",
+          "imagePath": "data/platform_b/images/user_01/2008_001227.jpg",
+          "text": "Two gentleman talking in front of propeller plane. Two men are conversing next to a small airplane. Two men talking in front of a plane Two men talking in front of a small plane. Two men talk while standing next to a small passenger plane at an airport.",
+          "timestamp": null,
+          "imageEmbedding": []
+        }
+      ]
+    },
+    {
+      "platformId": "a_platform",
+      "userId": "2",
+      "username": "a_platform_user_2",
+      "entityHint": "u002",
+      "imagePath": "data/platform_a/images/user_02/2008_000090.jpg",
+      "imageCaptionText": "A child standing on a dusty street looks at adults with large metal containers. Appears to be a dairy somewhere in a developing country. A small child in a street surrounded by people and large metal urns. A young boy is standing in the street near milk jugs and men in an impoverished country. Small child looking at adults in rundown area.",
+      "avatarFeatureVector": [],
+      "bioText": "Pascal Sentences class: bicycle",
+      "behaviorFeatures": {
+        "postFrequency": 1.0,
+        "activeHours": [],
+        "topicDistribution": {
+          "bicycle": 1.0
+        },
+        "writingStyleVector": []
+      },
+      "socialGraph": {
+        "followerIds": [],
+        "followingIds": [],
+        "interactionIds": []
+      },
+      "ipRegion": null,
+      "deviceFingerprint": null,
+      "contentItems": [
+        {
+          "postId": "A02_01",
+          "imagePath": "data/platform_a/images/user_02/2008_000090.jpg",
+          "text": "A child standing on a dusty street looks at adults with large metal containers. Appears to be a dairy somewhere in a developing country. A small child in a street surrounded by people and large metal urns. A young boy is standing in the street near milk jugs and men in an impoverished country. Small child looking at adults in rundown area.",
+          "timestamp": null,
+          "imageEmbedding": []
+        }
+      ]
+    },
+    {
+      "platformId": "b_platform",
+      "userId": "2",
+      "username": "b_platform_user_2",
+      "entityHint": "u002",
+      "imagePath": "data/platform_b/images/user_02/2008_000725.jpg",
+      "imageCaptionText": "A cyclist relaxes on a bench and gazes toward the ocean. Man sits on bench and looks toward ocean with a bike at his side. Person sitting on a bench taking a break from bike riding. Someone sitting on a bench next to a bike looking out over the sea. Woman sitting next to bicycle on a snowy bench facing the ocean.",
+      "avatarFeatureVector": [],
+      "bioText": "Pascal Sentences class: bicycle",
+      "behaviorFeatures": {
+        "postFrequency": 1.0,
+        "activeHours": [],
+        "topicDistribution": {
+          "bicycle": 1.0
+        },
+        "writingStyleVector": []
+      },
+      "socialGraph": {
+        "followerIds": [],
+        "followingIds": [],
+        "interactionIds": []
+      },
+      "ipRegion": null,
+      "deviceFingerprint": null,
+      "contentItems": [
+        {
+          "postId": "B02_01",
+          "imagePath": "data/platform_b/images/user_02/2008_000725.jpg",
+          "text": "A cyclist relaxes on a bench and gazes toward the ocean. Man sits on bench and looks toward ocean with a bike at his side. Person sitting on a bench taking a break from bike riding. Someone sitting on a bench next to a bike looking out over the sea. Woman sitting next to bicycle on a snowy bench facing the ocean.",
+          "timestamp": null,
+          "imageEmbedding": []
+        }
+      ]
+    }
+  ],
+  "alignConfig": {
+    "similarityThreshold": 0.85,
+    "enabledFeatures": [
+      "username",
+      "captionText",
+      "imagePath",
+      "behavior",
+      "topic"
+    ],
+    "maxClustersReturn": 500
+  }
+}

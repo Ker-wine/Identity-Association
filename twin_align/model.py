@@ -65,6 +65,8 @@ def train_model(args: Any) -> None:
     out_dir = Path(args.outDir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
+
+
     # 第一步：读取标准化后的 TWIN 数据。
     users, posts = load_standard_data(data_dir)
 
@@ -136,4 +138,5 @@ def train_model(args: Any) -> None:
 
     print(f"Saved model: {model_path}")
     print(f"Saved API demo: {out_dir / 'api_response_demo.json'}")
+    
     print(json.dumps(metrics, ensure_ascii=False, indent=2))
